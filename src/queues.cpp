@@ -12,22 +12,24 @@ Queues::Queues()
       } {}
 Queues::~Queues() {}
 
-void Queues::step() {
+bool Queues::step() {
   if (this->commands.empty()) {
-    return;
+    return false;
   }
   this->_executeCommand(this->commands.front());
   this->executedCommands.push_front(this->commands.front());
   this->commands.pop_front();
+  return true;
 }
 
-void Queues::stepBack() {
+bool Queues::stepBack() {
   if (this->executedCommands.empty()) {
-    return;
+    return false;
   }
   this->_executeReverseCommand(this->executedCommands.front());
   this->commands.push_front(this->executedCommands.front());
   this->executedCommands.pop_front();
+  return true;
 }
 
 std::list<int> Queues::_normalize(const std::list<int> &numbers) {

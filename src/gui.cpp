@@ -157,14 +157,20 @@ void Gui::_animateQueue(sf::Clock &clock) {
   case STATE::Running: {
     int steps = static_cast<int>(delta * this->speed);
     for (int i = 0; i < steps; ++i) {
-      this->queues.step();
+      if (!this->queues.step()) {
+        this->state = STATE::Stopped;
+        break;
+      }
     }
     break;
   }
   case STATE::Reverse: {
     int steps = static_cast<int>(delta * this->speed);
     for (int i = 0; i < steps; ++i) {
-      this->queues.stepBack();
+      if (!this->queues.stepBack()) {
+        this->state = STATE::Stopped;
+        break;
+      }
     }
     break;
   }
@@ -206,11 +212,11 @@ void Gui::loop() {
       }
       this->numbers = values;
       this->pushswap.run(this->numbers);
-      this->state = STATE::Stopped;
       this->queues.start(Utils::SplitStringToInt(this->numbers, ' '));
       this->queues.commands = this->pushswap.commands;
       this->queues.executedCommands.clear();
       this->bulk.decrement();
+      this->state = STATE::Running;
     }
 
     _window.clear();

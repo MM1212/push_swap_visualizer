@@ -12,8 +12,8 @@ public:
   Queues();
   ~Queues();
 
-  void step();
-  void stepBack();
+  bool step();
+  bool stepBack();
   void start(const std::list<int> &start);
 
   std::list<std::string> commands;

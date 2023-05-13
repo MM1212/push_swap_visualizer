@@ -44,7 +44,7 @@ void Bulk::onImGuiRender() {
   if (!this->m_enabled)
     return;
   if (ImGui::Begin("Bulk Tester", &this->m_enabled)) {
-    ImGui::InputInt("Amount of runs", &this->m_size);
+    ImGui::InputInt("Amount of runs", &this->m_size, 1, 10);
     ImGui::Text("Runs recorded: %zu", this->m_runs.size());
     ImGui::Text("Runs left: %zu", this->m_count);
     ImGui::Text("Average: %d", this->m_average);
