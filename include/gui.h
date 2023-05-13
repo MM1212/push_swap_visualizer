@@ -2,6 +2,7 @@
 
 #include "pushswap.h"
 #include "queues.h"
+#include "bulk.h"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <list>
@@ -13,6 +14,7 @@ private:
   enum class STATE {Running, Reverse, Stopped};
   Queues queues;
   PushSwap pushswap;
+  Bulk bulk;
 
   std::vector<sf::RectangleShape> barsA;
   std::vector<sf::RectangleShape> barsB;

@@ -1,4 +1,4 @@
-add_library(VisualizerLib STATIC utils.cpp queues.cpp pushswap.cpp gui.cpp)
+add_library(VisualizerLib STATIC utils.cpp queues.cpp pushswap.cpp bulk.cpp gui.cpp)
 
 target_link_libraries(VisualizerLib PUBLIC ImGui-SFML::ImGui-SFML)
 target_include_directories(VisualizerLib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../include")

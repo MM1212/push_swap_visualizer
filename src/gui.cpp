@@ -6,6 +6,7 @@
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include <random>
+#include <iostream>
 
 Gui::Gui()
     : generateNumberSize{0}, speed{1}, state{STATE::Stopped}, scale{1.0f},
@@ -117,6 +118,7 @@ void Gui::_updateControls() {
     this->queues.commands = this->pushswap.commands;
     this->queues.executedCommands.clear();
   }
+  this->bulk.onImGuiRender();
 
   std::string status{"..."};
   if (!this->pushswap.commands.empty()) {
@@ -192,6 +194,24 @@ void Gui::loop() {
     this->_updateControls();
 
     this->_animateQueue(stepClock);
+
+    if (this->state == STATE::Stopped && this->bulk.isRunning()) {
+      if (!this->pushswap.commands.empty())
+        this->bulk.recordRun(this->numbers, this->pushswap.commands);
+      unsigned int size = static_cast<unsigned int>(this->generateNumberSize);
+      std::list<int> valueInts = this->_generateValues(size);
+      std::string values;
+      for (const int value : valueInts) {
+        values += std::to_string(value) + ' ';
+      }
+      this->numbers = values;
+      this->pushswap.run(this->numbers);
+      this->state = STATE::Stopped;
+      this->queues.start(Utils::SplitStringToInt(this->numbers, ' '));
+      this->queues.commands = this->pushswap.commands;
+      this->queues.executedCommands.clear();
+      this->bulk.decrement();
+    }
 
     _window.clear();
 
