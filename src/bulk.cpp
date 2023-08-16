@@ -46,7 +46,7 @@ void Bulk::onImGuiRender() {
   if (ImGui::Begin("Bulk Tester", &this->m_enabled)) {
     ImGui::InputInt("Amount of runs", &this->m_size, 1, 10);
     ImGui::Text("Runs recorded: %zu", this->m_runs.size());
-    ImGui::Text("Runs left: %zu", this->m_count);
+    ImGui::Text("Runs left: %u", this->m_count);
     ImGui::Text("Average: %d", this->m_average);
     ImGui::Text("Min: %d", this->m_min);
     ImGui::Text("Max: %d", this->m_max);
@@ -59,7 +59,7 @@ void Bulk::onImGuiRender() {
       ImGui::BeginChild("runs");
       for (uint32_t i = 0; i < this->m_runs.size(); i++) {
         auto& run = this->m_runs[i];
-        ImGui::Text("#%d -> %d", i, run->commands.size());
+        ImGui::Text("#%d -> %zu", i, run->commands.size());
       }
       ImGui::EndChild();
     }
